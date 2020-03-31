@@ -1,24 +1,22 @@
+<?php
+$geheilt = [0,34,52,64,81,114,118,129];
+$tode =  [0];
+$krank = [2,2,4,4,4,7,12,14,19,24,33,37,62,76,95,140,153,161,170,183,205,223,238,256,259,285,304];
+
+$heute = strtotime("31.03.2020, 17:00");
+?>
+
 <html>
 <head>
   <title>Coronainfomationssseite Dortmund (inoffiziell)</title>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
   <link media="all" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script async src="https://scoplanner.tk/js/jquery-3.3.1.js"></script>
-  <link media="all" rel="stylesheet" href="https://scoplanner.tk/css/bootstrapmin.css">
-  <script async src="https://scoplanner.tk/js/popper.min.js"></script>
-  <script async src="https://scoplanner.tk/js/bootstrapmin.js"></script>
-  <link media="all" rel="stylesheet" href="https://scoplanner.tk/css/bootstrapmin.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <link media="all" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145479076-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-145479076-1');
-</script>
 
 </head>
 <body align="center">
@@ -34,7 +32,7 @@
   <div class="card-body" id="">
     <canvas id="canvas" width="500" height="400"></canvas>
     <p align="center">
-      Zuletzt aktuallisiert: 30. März, 17:30 Uhr
+      Zuletzt aktuallisiert: <?php echo date("d.m.Y, H:i", $heute);?> Uhr
     </p>
   </div>
 </div>
@@ -72,7 +70,6 @@
 
   </div>
 </div>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 
@@ -92,8 +89,8 @@
 <div class="card">
   <h5 class="card-title" align="center">Kontakt:</h5>
   <div class="card-body" align="center">
-    <a target="_blank" href="https://scoplanner.tk/impressum.php">Impressum</a>
-    <a target="_blank" href="https://scoplanner.tk/Datenschutz.php">Datenschutz</a>
+    <a target="_blank" href="impressum.php">Impressum</a>
+    <a target="_blank" href="Datenschutz.php">Datenschutz</a>
   </div>
 </div>
 
@@ -116,20 +113,16 @@
 }
 </style>
 <?php
-$geheilt = [0,34,52,64,81,114,118,129];
-$tode =  [0];
-$krank = [2,2,4,4,4,7,12,14,19,24,33,37,62,76,95,140,153,161,170,183,205,223,238,256,259,285,304];
 $tag = "";
 $krankanz = "";
 $geheiltanz = "";
 $todeanz = "";
 $nochkrank = "";
-$heute = time();
 
 $ct = 0;
 $ch = 0;
 
-$tag = "'".date("d.m", strtotime("-".count($krank)." days"))."'";
+$tag = "'".date("d.m", strtotime("-".(count($krank) - 1)." days", $heute))."'";
 $krankanz = "'".$krank[0]."'";
 $geheiltanz = "'0'";
 $todeanz = "'0'";
@@ -137,7 +130,7 @@ $nochkrank .= "'".$krank[0]."'";
 
 for($i = 1;count($krank) > $i;$i++){
   $d = count($krank) - $i;
-  $tagis = date("d.m", strtotime("-".$d." days"));
+  $tagis = date("d.m", strtotime("-".($d  - 1)." days", $heute));
   $tag .= ",'".$tagis."'";
 
   $krankanz .= ",'".$krank[$i]."'";
@@ -159,89 +152,86 @@ for($i = 1;count($krank) > $i;$i++){
 }
 ?>
   <script>
-  var geheilt = [0,34,52,64,81,114,118];
-  var tode = [0];
-  var krank = [2,2,4,4,4,7,12,14,19,24,33,37,62,76,95,140,153,161,170,183,205,223,238,256,259,285];
-  		var config = {
-  			type: 'line',
-  			data: {
-  				labels: [<?php echo $tag;?>],
-  				datasets: [{
-  					label: 'Infiziert',
-  					backgroundColor: "#fe0404",
-  					borderColor: "#fe0404",
-  					data: [
+  var config = {
+  type: 'line',
+  data: {
+  labels: [<?php echo $tag;?>],
+  datasets: [{
+  label: 'Infiziert',
+  backgroundColor: "#fe0404",
+  borderColor: "#fe0404",
+  data: [
               <?php echo $krankanz;?>
-  					],
-  					fill: false,
-  				}, {
-  					label: 'Geheilt',
-  					fill: false,
-  					backgroundColor: "#2abb12",
-  					borderColor: "#2abb12",
-  					data: [
+  ],
+  fill: false,
+  }, {
+  label: 'Geheilt',
+  fill: false,
+  backgroundColor: "#2abb12",
+  borderColor: "#2abb12",
+  data: [
               <?php echo $geheiltanz;?>
-  					],
-  				}, {
-  					label: 'Tote',
-  					fill: false,
-  					backgroundColor: "#000000",
-  					borderColor: "#000000",
-  					data: [
+  ],
+  }, {
+  label: 'Tote',
+  fill: false,
+  backgroundColor: "#000000",
+  borderColor: "#000000",
+  data: [
               <?php echo $todeanz;?>
-  					],
-  				}, {
-  					label: 'Erkrankte',
-  					fill: false,
-  					backgroundColor: "#2649ff",
-  					borderColor: "#2649ff",
-  					data: [
+  ],
+  }, {
+  label: 'Erkrankte',
+  fill: false,
+  backgroundColor: "#2649ff",
+  borderColor: "#2649ff",
+  data: [
               <?php echo $nochkrank;?>
-  					],
-  				}]
-  			},
-  			options: {
-  				responsive: false,
-  				title: {
-  					display: true,
-  					text: 'Coronastatistik'
-  				},
-  				tooltips: {
-  					mode: 'index',
-  					intersect: false,
-  				},
-  				hover: {
-  					mode: 'nearest',
-  					intersect: true
-  				},
-  				scales: {
-  					xAxes: [{
-  						display: true,
-  						scaleLabel: {
-  							display: true,
-  							labelString: 'Month'
-  						}
-  					}],
-  					yAxes: [{
-  						display: true,
-  						scaleLabel: {
-  							display: true,
-  							labelString: 'Value'
-  						}
-  					}]
-  				}
-  			}
-  		};
+  ],
+  }]
+  },
+  options: {
+  responsive: false,
+  title: {
+  display: true,
+  text: 'Coronastatistik'
+  },
+  tooltips: {
+  mode: 'index',
+  intersect: false,
+  },
+  hover: {
+  mode: 'nearest',
+  intersect: true
+  },
+  scales: {
+  xAxes: [{
+  display: true,
+  scaleLabel: {
+  display: true,
+  labelString: 'Month'
+  }
+  }],
+  yAxes: [{
+  display: true,
+  scaleLabel: {
+  display: true,
+  labelString: 'Value'
+  }
+  }]
+  }
+  }
+  };
 
-  		window.onload = function() {
-  			var ctx = document.getElementById('canvas').getContext('2d');
+  window.onload = function() {
+  var ctx = document.getElementById('canvas').getContext('2d');
         if(screen.width > 500){
           document.getElementById('canvas').style.width = 500;
         }else{
           document.getElementById('canvas').style.width = screen.width -40;
         }
-  			window.myLine = new Chart(ctx, config);
-  		};
+  window.myLine = new Chart(ctx, config);
+  };
 
 
   </script>
