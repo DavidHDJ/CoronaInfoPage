@@ -1,8 +1,15 @@
 <?php
+
+//Geheilte Personen seit es Geheilte gibt
 $geheilt = [0,34,52,64,81,114,118,129];
+
+// Todeszahlen pro Tag (letzte Zahl ist die zuletzt bekannte Zahl)
 $tode =  [0];
+
+//Infizierte Personen seit der ersten infizierung
 $krank = [2,2,4,4,4,7,12,14,19,24,33,37,62,76,95,140,153,161,170,183,205,223,238,256,259,285,304];
 
+//Letzter Datensatz
 $heute = strtotime("31.03.2020, 17:00");
 ?>
 
